@@ -1,21 +1,11 @@
 package application;
 
-
-
-
 import javafx.scene.SnapshotParameters;
-
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import application.Uitility;
-import javafx.embed.swing.SwingFXUtils;
-import javax.imageio.ImageIO;
-
 import org.bytedeco.javacv.FrameGrabber.Exception;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -26,13 +16,11 @@ import java.time.format.DateTimeFormatter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
 
 import javafx.scene.control.ProgressIndicator;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,7 +34,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -54,48 +41,26 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import javafx.fxml.Initializable;
 
 import java.awt.Desktop;
-import java.awt.FontFormatException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
-import java.sql.SQLException;
+
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import application.FaceDetector;
-import application.Uitility;
-import application.Filemonitor;
-import application.Apiclient;
-import application.UIHandler;
-import application.Faceposture;
 
-import java.nio.channels.FileLock;
-import java.nio.channels.NonWritableChannelException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitOption;
-import java.nio.file.FileVisitResult;
+
+
+
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardWatchEventKinds;
-import java.nio.file.WatchEvent;
-import java.nio.file.WatchKey;
-import java.nio.file.WatchService;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -211,15 +176,14 @@ public class SceneController implements Initializable  {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		CompletableFuture<Void> allTasks = CompletableFuture
-				.runAsync(this::initializeFileMonitoring)
-				.thenRun(this::reinitializeuicomponents)
-				.thenRun(Uitility::checkImagesFolder);
-		allTasks.thenRun(()->{
+		new Thread(()->{
+			Uitility.checkImagesFolder();
+			initializeFileMonitoring();
 			Platform.runLater(()->{
+				reinitializeuicomponents();
 				initializeImages();
 			});
-		});
+		}).start();
 	} 
 	
 	
@@ -581,7 +545,7 @@ public class SceneController implements Initializable  {
 	}
 	
 	
-	public  void handleonClose() throws SQLException {
+	public  void handleonClose()  {
 		if(isInit == true) {
 			this.stopCam();	
 		}
@@ -670,17 +634,14 @@ public class SceneController implements Initializable  {
 	protected void deleteIfExist(File[] files) {
 		for (File file : files) {
 			if (file.isFile() && file.getName().toLowerCase().endsWith(".jpg")) {
-				String sourceFilePath = file.getAbsolutePath();
 				String destinationDirectory = Configuration.getPreference(ConfigKeys.facesDirectory, null);
 				
-				File sourceFile = new File(sourceFilePath);
 				File destinationDirectoryFile = new File(destinationDirectory);
 				
 				if (!destinationDirectoryFile.exists()) {
 					destinationDirectoryFile.mkdirs();
 				}
 				
-				Path sourcePath = sourceFile.toPath();
 				Path destinationPath = new File(destinationDirectory, file.getName()).toPath();
 				
 //	            System.out.println("Exist: "+ Files.exists(destinationPath) +" "+ sourcePath+ " :");
