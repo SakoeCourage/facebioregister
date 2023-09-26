@@ -398,6 +398,7 @@ public class FaceDetector implements Runnable {
     }
 
 	public void stop() {
+		  stop = true;
 		  try {
 		        if (grabber != null) {
 		            grabber.stop();
@@ -411,9 +412,11 @@ public class FaceDetector implements Runnable {
 		    if (this.frames != null) {
 		        this.frames.setImage(null);
 		    }
-		    stop = true;
+		  
 		    grabber = null;
 		    grabbedImage = grayImage = smallImage = null;
+		    Platform.exit();
+		    System.exit(0);
 	}
 
 	public void setClassifier(String name) {
