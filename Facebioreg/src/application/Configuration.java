@@ -28,21 +28,32 @@ public class Configuration {
 	    public static String getDefaultConfigDir() {
 	        String userHome = System.getProperty("user.home");
 	        String documentsPath = userHome + File.separator + "Documents";
-	        String configDirPath = documentsPath + File.separator + "faceregistrar";
+	        String configDirPath = documentsPath + File.separator + ConfigKeys.fileDefaultFolder;
 	        String filePath = configDirPath + File.separator + "config.properties";
 	        return filePath;
 	    }
 
 	    static void loadPreferences() {
-	        try (FileInputStream input = new FileInputStream(getDefaultConfigDir())) {
+	        File configFile = new File(getDefaultConfigDir());
+
+	        try (FileInputStream input = new FileInputStream(configFile)) {
 	            properties.load(input);
-	        } catch (IOException e) {
-//	            e.printStackTrace();
-	            // Create a new properties file with default values if it doesn't exist
-	            try (FileOutputStream output = new FileOutputStream(getDefaultConfigDir())) {
+	        } catch (IOException e) {   
+	            // Check if the parent directory of the file exists, and create it if not
+	            File parentDir = configFile.getParentFile();
+	            if (!parentDir.exists()) {
+	                if (parentDir.mkdirs()) {
+	                    System.out.println("Created directory: " + parentDir.getAbsolutePath());
+	                } else {
+	                    System.err.println("Failed to create directory: " + parentDir.getAbsolutePath());
+	                }
+	            }
+
+	            // Create a new properties file with default values
+	            try (FileOutputStream output = new FileOutputStream(configFile)) {
 	                properties.store(output, null);
 	            } catch (IOException ioException) {
-//	                ioException.printStackTrace();
+	                ioException.printStackTrace();
 	            }
 	        }
 	    }
@@ -52,9 +63,10 @@ public class Configuration {
 	            properties.store(output, null);
 	        } catch (IOException e) {
 	            // Handle the exception
-//	            e.printStackTrace();
+	            e.printStackTrace();
 	        }
 	    }
+
 
 
 

@@ -13,4 +13,6 @@ public class ConfigKeys {
 	static String configProperties = "configProperties";
 	
 	static String tempFaces = "tempFaces";
+	
+	static String fileDefaultFolder ="faceregistrar";
 }

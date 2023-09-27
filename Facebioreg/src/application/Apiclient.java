@@ -35,6 +35,10 @@ public class Apiclient {
 	
 	  public static Person fetchEmployee(String empid) throws Exception {
 	            String endPoint = Configuration.getPreference(ConfigKeys.apiEndPoint, null);
+	            
+	            if (endPoint == null) {
+	                throw new Exception("API endpoint is not configured");
+	            }
 	            if(!isValidUrl(endPoint)) {
 	            	throw new Exception("Invalid Api Resource URL");
 	            }else {

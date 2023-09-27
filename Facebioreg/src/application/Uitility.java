@@ -93,7 +93,7 @@ public class Uitility {
         String userHome = System.getProperty("user.home");
         String documentsPath = userHome + File.separator + "Documents";
 
-        String facesFolderPath = documentsPath + File.separator + "faceregistrar" + File.separator + "images" + File.separator + "faces";
+        String facesFolderPath = documentsPath + File.separator + ConfigKeys.fileDefaultFolder + File.separator + "images" + File.separator + "faces";
         File facesFolder = new File(facesFolderPath);
 
         if (!facesFolder.exists()) {
@@ -107,7 +107,7 @@ public class Uitility {
             Configuration.setPreference(ConfigKeys.facesDirectory, facesFolder.toString());
         }
         
-        String tempFaceFolder = documentsPath + File.separator + "faceregistrar" + File.separator + "images" + File.separator + "tempface";
+        String tempFaceFolder = documentsPath + File.separator + ConfigKeys.fileDefaultFolder + File.separator + "images" + File.separator + "tempface";
         File tempFacesFolder = new File(tempFaceFolder);
 
         if (!tempFacesFolder.exists()) {

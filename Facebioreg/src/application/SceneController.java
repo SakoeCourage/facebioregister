@@ -152,7 +152,7 @@ public class SceneController implements Initializable  {
 	
 	public int maxImageCaptures = 5;
 	
-	static FaceDetector faceDetect = new FaceDetector();	
+	static FaceDetector faceDetect;	
 	
 	Faceposture faceposture = new Faceposture();
 	
@@ -179,9 +179,11 @@ public class SceneController implements Initializable  {
 		new Thread(()->{
 			Uitility.checkImagesFolder();
 			initializeFileMonitoring();
+			faceDetect = new FaceDetector();
 			Platform.runLater(()->{
 				reinitializeuicomponents();
 				initializeImages();
+				
 			});
 		}).start();
 	} 
@@ -318,7 +320,6 @@ public class SceneController implements Initializable  {
 		}, 3, TimeUnit.SECONDS);
 		
 	}
-	
 	
 	
 	EventHandler<ActionEvent> closeButtonEventHanlder = event -> {
