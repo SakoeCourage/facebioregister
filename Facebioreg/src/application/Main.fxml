@@ -50,9 +50,9 @@
                <children>
                   <TitledPane fx:id="faceRegSectionTitledPane" alignment="TOP_CENTER" animated="false" collapsible="false" styleClass="secondary_dark" text="FACE REG" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
-                      <AnchorPane fx:id="mainMidAnchorPane" prefHeight="471.0" prefWidth="420.0" styleClass="secondary_dark">
+                      <AnchorPane fx:id="mainMidAnchorPane" styleClass="secondary_dark">
                            <children>
-                              <VBox layoutX="38.6" layoutY="26.0" prefHeight="288.0" prefWidth="606.0" spacing="5.0" style="-fx-background-color: #ede9fe;" AnchorPane.bottomAnchor="210.20000000000005" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox fx:id="frameVB" layoutX="38.6" layoutY="26.0" spacing="5.0" style="-fx-background-color: #ede9fe;" AnchorPane.bottomAnchor="209.39999999999998" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <ImageView fx:id="frame" fitHeight="492.0" fitWidth="820.0" pickOnBounds="true" VBox.vgrow="ALWAYS">
                                        <viewport>
@@ -61,9 +61,9 @@
                                     </ImageView>
                                  </children>
                               </VBox>
-                              <VBox fx:id="postureSectionVbox" layoutX="27.600000381469727" layoutY="510.3999938964844">
+                              <VBox fx:id="postureSectionVbox" layoutX="27.600000381469727" layoutY="510.3999938964844" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                  <children>
-                                    <GridPane hgap="5.0" prefHeight="64.0" prefWidth="781.0">
+                                    <GridPane fx:id="controlGridPane" hgap="5.0" prefHeight="64.0">
                                       <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -109,8 +109,14 @@
                                              </graphic>
                                           </Button>
                                        </children>
+                                       <padding>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </padding>
                                     </GridPane>
                                  </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
                               </VBox>
                               <Label fx:id="personLabel" layoutX="541.0" layoutY="441.0" prefHeight="38.0" prefWidth="263.0" style="-fx-background-radius: 5;" styleClass="person_name_label" text="Personname" visible="false">
                                  <graphic>

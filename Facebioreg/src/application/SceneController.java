@@ -34,6 +34,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -81,6 +82,12 @@ public class SceneController implements Initializable  {
 	private AnchorPane root;
 	@FXML
 	private AnchorPane mainMidAnchorPane;
+	@FXML
+	private VBox midFramVB;
+	@FXML
+	private GridPane controlGridPane;
+	@FXML
+	private VBox frameVB;
 	@FXML
 	private TitledPane faceRegSectionTitledPane;
 	@FXML
@@ -191,17 +198,22 @@ public class SceneController implements Initializable  {
 	
 	
 	public void reinitializeuicomponents() {
+		mainMidAnchorPane.prefWidthProperty().bind(faceRegSectionTitledPane.widthProperty());
+		mainMidAnchorPane.prefHeightProperty().bind(faceRegSectionTitledPane.heightProperty());
+		
 		Uitility.setControlsDisabled(true,recogniseBtn,capBtn,sources);
 		root.getChildren().remove(errorPanel);
 		recapBtn.setVisible(false);
 		InputStream inputStream = getClass().getResourceAsStream("appimages/notrecording.jpg");
 		Image image = new Image(inputStream);
 		this.frame.setImage(image);
+		frame.fitWidthProperty().bind(frameVB.widthProperty());
+		postureSectionVbox.prefWidthProperty().bind(mainMidAnchorPane.widthProperty());
 		
+		controlGridPane.prefWidthProperty().bind(mainMidAnchorPane.widthProperty());
 		this.setWrappedImageView();
 		initializeSearchUserMode();
-//		*****************
-	
+		
 	}
 	
 	public  void setWrappedImageView() {
